@@ -1,0 +1,56 @@
+public class MinMaxStack {
+	//choosing data structure to implement stack
+		List<Integer> stack = new ArrayList<>();
+		//choosing data structure to manage latest min max values
+		List<Map<String,Integer>> minMaxStack = new ArrayList<>();
+
+
+		// push the values t- O(1) s- O(1)
+		public void push(int number){
+		Map<String,Integer> newMinMax = new HashMap<>();
+		newMinMax.put("min",number);
+		newMinMax.put("max",number);
+
+		if(!minMaxStack.isEmpty()){
+			Map<String,Integer> lastMinMax =  new HashMap<>(minMaxStack.get(minMaxStack.size()-1));
+			newMinMax.replace("min", Math.min(lastMinMax.get("min"),number));
+			newMinMax.replace("max", Math.max(lastMinMax.get("max"),number));
+		}
+		minMaxStack.add(newMinMax);
+		stack.add(number);
+		}
+
+		//peek to return top value t- O(1) s- O(1)
+		public int peek(){
+			if(stack.isEmpty()) {
+				return -1;
+			}
+			return stack.get(stack.size()-1);
+		}
+
+		//pop the value - remove the value t- O(1) s- O(1)
+		public int pop(){
+			if(stack.isEmpty()) {
+				return -1;
+			}
+			minMaxStack.remove(minMaxStack.size()-1);
+			return stack.remove(stack.size()-1);
+		}
+		
+		// this retruns Minimum value t- O(1) s- O(1)
+		public int getMin(){
+			if(minMaxStack.isEmpty()) {
+				return -1;
+			}
+		    	return minMaxStack.get(minMaxStack.size()-1).get("min");
+		}
+		
+		// this returns Maximum value  t- O(1) s- O(1)
+		public int getMax(){
+			if(minMaxStack.isEmpty()) {
+				return -1;
+			}
+			return minMaxStack.get(minMaxStack.size()-1).get("max");
+		}
+
+}
